@@ -1,14 +1,15 @@
 package controller;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -22,8 +23,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/all")
-    public List<User> getUsers() {
+    public ResponseEntity<List<User>> getUsers() {
         List<User> users = userService.getAll();
-        return users;
+        return ResponseEntity.of(Optional.ofNullable(users));
     }
 }
