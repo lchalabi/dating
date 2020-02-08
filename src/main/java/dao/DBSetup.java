@@ -21,13 +21,13 @@ public class DBSetup {
     @PostConstruct
     public void setup() {
         users(Arrays.asList(
-            "(1, 'lila', 'chalabi', 'lchalabi@gmail.com')",
-            "(2, 'sasha', 'whittle', 'sasha@gmail.com')",
-            "(3, 'brad', 'tyson', 'btyson@gmail.com')"
+            "('lila', 'chalabi', 'lchalabi@gmail.com')",
+            "('sasha', 'whittle', 'sasha@gmail.com')",
+            "('brad', 'tyson', 'btyson@gmail.com')"
             ));
         userRelationships(Arrays.asList(
-            "(1, 1, 2, 'LIKED', " + Instant.now().toEpochMilli() + ")",
-            "(2, 2, 1, 'LIKED', " + Instant.now().toEpochMilli() + ")"
+            "(1, 2, 'LIKED', " + Instant.now().toEpochMilli() + ")",
+            "(2, 1, 'LIKED', " + Instant.now().toEpochMilli() + ")"
         ));
     }
 
@@ -36,7 +36,7 @@ public class DBSetup {
             "email text UNIQUE)");
 
         values.forEach(valueSet -> {
-            template.execute("INSERT INTO users (id, first_name, last_name, email) values " +
+            template.execute("INSERT INTO users (first_name, last_name, email) values " +
                 valueSet + "ON CONFLICT DO NOTHING");
         });
     }
@@ -49,7 +49,7 @@ public class DBSetup {
             "FOREIGN KEY (user2_id) REFERENCES users (id))");
 
         values.forEach(valueSet -> {
-            template.execute("INSERT INTO user_relationships (id, user1_id, user2_id, status, updated_at) values " +
+            template.execute("INSERT INTO user_relationships (user1_id, user2_id, status, updated_at) values " +
                 valueSet + "ON CONFLICT DO NOTHING");
         });
     }

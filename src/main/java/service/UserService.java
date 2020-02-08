@@ -23,6 +23,10 @@ public class UserService {
         return userDao.getAll();
     }
 
+    public void createUser(User newUser) {
+        userDao.createUser(newUser);
+    }
+
     public List<User> getLikes(int userId) {
         return userDao.getLikes(userId);
     }
