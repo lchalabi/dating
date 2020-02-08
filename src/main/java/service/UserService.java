@@ -22,4 +22,8 @@ public class UserService {
     public List<User> getAll() {
         return userDao.getAll();
     }
+
+    public List<User> getLikes(int userId) {
+        return userDao.getLikes(userId);
+    }
 }

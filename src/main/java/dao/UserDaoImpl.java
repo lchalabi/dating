@@ -19,4 +19,10 @@ public class UserDaoImpl implements UserDao {
     public List<User> getAll() {
         return template.query("select * from users", new UserRowMapper());
     }
+
+    @Override
+    public List<User> getLikes(int userId) {
+        return template.query("select * from users where id in (select user2_id from user_relationships where " +
+            "user1_id=" + userId + ")", new UserRowMapper());
+    }
 }
