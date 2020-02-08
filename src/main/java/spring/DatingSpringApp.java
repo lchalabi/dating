@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import java.util.Arrays;
 
 @SpringBootApplication
-@ComponentScan({"controller"})
+@ComponentScan({"controller", "service", "model", "dao"})
 public class DatingSpringApp {
 
     public static void main(String[] args) {
@@ -28,7 +28,6 @@ public class DatingSpringApp {
             for (String beanName : beanNames) {
                 System.out.println(beanName);
             }
-
         };
     }
 }
