@@ -1,6 +1,7 @@
 package controller;
 
 import model.User;
+import model.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import service.UserService;
 
@@ -32,9 +32,14 @@ public class UserController {
         return ResponseEntity.of(Optional.ofNullable(users));
     }
 
+    @PostMapping(value = "/edit")
+    public ResponseEntity<UserResponse> updateUser(@RequestBody User updateUser) {
+        return ResponseEntity.of(Optional.ofNullable(userService.updateUser(updateUser)));
+    }
+
     @PostMapping(value = "/create")
-    public void createUser(@RequestBody User newUser) {
-        userService.createUser(newUser);
+    public ResponseEntity<UserResponse> createUser(@RequestBody User newUser) {
+        return ResponseEntity.of(Optional.ofNullable(userService.createUser(newUser)));
     }
 
     @GetMapping(value = "/likes/{userId}")

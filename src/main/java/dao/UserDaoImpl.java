@@ -1,6 +1,7 @@
 package dao;
 
 import model.User;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -8,7 +9,10 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
+
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -22,6 +26,34 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAll() {
         return template.query("select * from users", new UserRowMapper());
+    }
+
+    @Override
+    public Optional<User> getByEmail(String email) {
+        String sql = "select * from users where email = :email";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+            .addValue("email", email);
+
+        try {
+            return Optional.ofNullable(template.queryForObject(sql, param, new UserRowMapper()));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<User> getById(int userId) {
+        String sql = "select * from users where id = :userId";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+            .addValue("userId", userId);
+
+        try {
+            return Optional.ofNullable(template.queryForObject(sql, param, new UserRowMapper()));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -39,8 +71,20 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> getLikes(int userId) {
+    public void updateUser(User updateUser) {
+        final String sql = "update users set first_name=:firstName, last_name=:lastName, " +
+            "email=:email where id=:userId";
+        KeyHolder holder = new GeneratedKeyHolder();
+        SqlParameterSource param = new MapSqlParameterSource()
+            .addValue("userId", updateUser.getId())
+            .addValue("firstName", updateUser.getFirstName())
+            .addValue("lastName", updateUser.getLastName())
+            .addValue("email", updateUser.getEmail());
+        template.update(sql,param, holder);
+    }
 
+    @Override
+    public List<User> getLikes(int userId) {
         return template.query("select * from users where id in (select user2_id from user_relationships where " +
             "user1_id=" + userId + ")", new UserRowMapper());
     }
