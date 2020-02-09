@@ -36,9 +36,9 @@ public class UserController {
     }
 
     @GetMapping(value = "/recommendations/{userId}")
-    public ResponseEntity<List<User>> getRecommendations(@PathVariable int userId) {
-        List<User> users = userService.getRecommendedProfiles(userId);
-        return ResponseEntity.of(Optional.ofNullable(users));
+    public ResponseEntity<UserResponse> getRecommendations(@PathVariable int userId) {
+        UserResponse response = userService.getRecommendedProfiles(userId);
+        return ResponseEntity.of(Optional.ofNullable(response));
     }
 
     @GetMapping(value = "/likes/{userId}")

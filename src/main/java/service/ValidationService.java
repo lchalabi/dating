@@ -69,6 +69,12 @@ public class ValidationService {
         return validationFailures;
     }
 
+    public List<ValidationFailure> validateUserExists(int userId) {
+        List<ValidationFailure> validationFailures = new ArrayList<>();
+        validateUserExists(userId, validationFailures);
+        return validationFailures;
+    }
+
     private List<ValidationFailure> validateCreate(User user) {
         List<ValidationFailure> validationFailures = new ArrayList<>();
         if (user.getId() != null) {

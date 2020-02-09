@@ -64,10 +64,13 @@ public class UserService {
         }
     }
 
-    public List<User> getRecommendedProfiles(int userId) {
-        List<User> users = userDao.getViewableUsers(userId);
+    public UserResponse getRecommendedProfiles(int userId) {
+        UserResponse userResponse = UserResponse.builder()
+            .failures(validationService.validateUserExists(userId))
+            .build();
         final Optional<User> user = userDao.getById(userId);
-        if (user.isPresent()) {
+        if (userResponse.getFailures().isEmpty() && user.isPresent()) {
+            List<User> users = userDao.getViewableUsers(userId);
             final Set<Integer> likedBy =
                 userDao.getUsersWhoLiked(user.get().getId()).stream().map(User::getId).collect(Collectors.toSet());
             Comparator<User> comparator = Comparator.<User, Integer>comparing(user2 -> user2.likedBy(likedBy))
@@ -75,8 +78,9 @@ public class UserService {
 
             comparator.thenComparing(user1 -> user1.likedBy(likedBy));
             users.sort(comparator);
+            userResponse.setUsers(users);
         }
-        return users;
+        return userResponse;
     }
 
     public RelationshipResponse upsertRelationship(UserRelationship userRelationship) {
