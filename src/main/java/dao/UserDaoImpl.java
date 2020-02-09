@@ -15,6 +15,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+import static model.RelationshipStatus.BLOCKED;
+import static model.RelationshipStatus.LIKED;
+
 @Repository
 public class UserDaoImpl implements UserDao {
 
@@ -58,7 +61,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void createUser(User newUser) {
+    public Optional<User> createUser(User newUser) {
         final String sql = "insert into users (first_name, last_name , email) values" +
             "(:firstName, :lastName, :email)";
         KeyHolder holder = new GeneratedKeyHolder();
@@ -69,6 +72,8 @@ public class UserDaoImpl implements UserDao {
             .addValue("email", newUser.getEmail());
 
         template.update(sql, param, holder);
+
+        return getByEmail(newUser.getEmail());
     }
 
     @Override
@@ -103,8 +108,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> getRelationships(int userId, RelationshipStatus status) {
+    public List<User> getBlockedUsers(int userId) {
         return template.query("select * from users where id in (select user2_id from user_relationships where " +
-            "user1_id=" + userId + " and status = '" + status.name() + "')", new UserRowMapper());
+            "user1_id=" + userId + " and status = '" + BLOCKED.name() + "')", new UserRowMapper());
+    }
+
+    @Override
+    public List<User> getUsersWhoLiked(int userId) {
+        return template.query("select * from users where id in (select user1_id from user_relationships where " +
+            "user2_id=" + userId + " and status = '" + LIKED.name() + "')", new UserRowMapper());
     }
 }

@@ -10,9 +10,10 @@ import java.util.Optional;
 public interface UserDao {
 
     List<User> getAll();
-    void createUser(User newUser);
+    Optional<User> createUser(User newUser);
     void updateUser(User updateUser);
-    List<User> getRelationships(int userId, RelationshipStatus status);
+    List<User> getBlockedUsers(int userId);
+    List<User> getUsersWhoLiked(int userId);
     Optional<User> getByEmail(String email);
     void upsertRelationship(UserRelationship userRelationship);
     Optional<User> getById(int id);

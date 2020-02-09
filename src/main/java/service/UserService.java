@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.ValidationService.TransactionType;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -44,13 +46,18 @@ public class UserService {
             .failures(validationService.validateUser(newUser, TransactionType.CREATE))
             .build();
         if (restResponse.getFailures().isEmpty()) {
-            userDao.createUser(newUser);
+            Optional<User> createdUser = userDao.createUser(newUser);
+            createdUser.ifPresent(user -> restResponse.setUsers(Collections.singletonList(user)));
         }
         return restResponse;
     }
 
     public List<User> getRelationshipsByStatus(int userId, RelationshipStatus status) {
-        return userDao.getRelationships(userId, status);
+        if (status == RelationshipStatus.BLOCKED) {
+            return userDao.getBlockedUsers(userId);
+        } else {
+            return userDao.getUsersWhoLiked(userId);
+        }
     }
 
     public RestResponse upsertRelationship(UserRelationship userRelationship) {

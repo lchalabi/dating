@@ -17,6 +17,7 @@ import static model.ValidationRule.EMAIL_ALREADY_EXISTS;
 import static model.ValidationRule.EMAIL_MUST_BE_SPECIFIED;
 import static model.ValidationRule.ID_MUST_BE_NULL;
 import static model.ValidationRule.STATUS_MUST_BE_SPECIFIED;
+import static model.ValidationRule.USER_CANNOT_HAVE_A_RELATIONSHIP_WITH_SELF;
 
 @Component
 public class ValidationService {
@@ -46,6 +47,11 @@ public class ValidationService {
         if (userRelationship.getStatus() == null) {
             validationFailures.add(ValidationFailure.builder()
                 .errorMessage(STATUS_MUST_BE_SPECIFIED.getDesc())
+                .build());
+        }
+        if (userRelationship.getUser1Id() == userRelationship.getUser2Id()) {
+            validationFailures.add(ValidationFailure.builder()
+                .errorMessage(USER_CANNOT_HAVE_A_RELATIONSHIP_WITH_SELF.getDesc())
                 .build());
         }
         validateUserExists(userRelationship.getUser1Id(), validationFailures);
