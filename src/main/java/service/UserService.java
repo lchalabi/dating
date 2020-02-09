@@ -1,9 +1,10 @@
 package service;
 
 import dao.UserDao;
+import model.RelationshipResponse;
 import model.RelationshipStatus;
 import model.User;
-import model.RestResponse;
+import model.UserResponse;
 import model.UserRelationship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,42 +32,71 @@ public class UserService {
         return userDao.getAll();
     }
 
-    public RestResponse updateUser(User updateUser) {
-        RestResponse restResponse = RestResponse.builder()
+    public UserResponse updateUser(User updateUser) {
+        UserResponse userResponse = UserResponse.builder()
             .failures(validationService.validateUser(updateUser, TransactionType.UPDATE))
             .build();
-        if (restResponse.getFailures().isEmpty()) {
+        if (userResponse.getFailures().isEmpty()) {
             userDao.updateUser(updateUser);
         }
-        return restResponse;
+        return userResponse;
     }
 
-    public RestResponse createUser(User newUser) {
-        RestResponse restResponse = RestResponse.builder()
+    public UserResponse createUser(User newUser) {
+        UserResponse userResponse = UserResponse.builder()
             .failures(validationService.validateUser(newUser, TransactionType.CREATE))
             .build();
-        if (restResponse.getFailures().isEmpty()) {
+        if (userResponse.getFailures().isEmpty()) {
             Optional<User> createdUser = userDao.createUser(newUser);
-            createdUser.ifPresent(user -> restResponse.setUsers(Collections.singletonList(user)));
+            createdUser.ifPresent(user -> userResponse.setUsers(Collections.singletonList(user)));
         }
-        return restResponse;
+        return userResponse;
     }
 
     public List<User> getRelationshipsByStatus(int userId, RelationshipStatus status) {
-        if (status == RelationshipStatus.BLOCKED) {
-            return userDao.getBlockedUsers(userId);
+        if (status == RelationshipStatus.BLOCKED || status == RelationshipStatus.MATCHED) {
+            return userDao.getRelationshipsByStatus(userId, status);
         } else {
             return userDao.getUsersWhoLiked(userId);
         }
     }
 
-    public RestResponse upsertRelationship(UserRelationship userRelationship) {
-        RestResponse restResponse = RestResponse.builder()
+    public RelationshipResponse upsertRelationship(UserRelationship userRelationship) {
+        RelationshipResponse relationshipResponse = RelationshipResponse.builder()
             .failures(validationService.validateUserRelationship(userRelationship))
             .build();
-        if (restResponse.getFailures().isEmpty()) {
+
+        Optional<UserRelationship> possibleMatch = checkForMatch(userRelationship);
+        if (relationshipResponse.getFailures().isEmpty()) {
+            if (userRelationship.getStatus() == RelationshipStatus.LIKED) {
+                possibleMatch.ifPresent(match -> {
+                    match.setStatus(RelationshipStatus.MATCHED);
+                    userRelationship.setStatus(RelationshipStatus.MATCHED);
+                    userDao.upsertRelationship(match);
+                    relationshipResponse.setMatch(true);
+                });
+            } else if (userRelationship.getStatus() == RelationshipStatus.BLOCKED) {
+                possibleMatch.ifPresent(userDao::deleteRelationship);
+            } else if (userRelationship.getStatus() == RelationshipStatus.DISLIKED) {
+                possibleMatch.ifPresent(match -> {
+                    match.setStatus(RelationshipStatus.LIKED);
+                    userDao.upsertRelationship(match);
+                });
+            }
             userDao.upsertRelationship(userRelationship);
         }
-        return restResponse;
+        return relationshipResponse;
+    }
+
+    private Optional<UserRelationship> checkForMatch(UserRelationship userRelationship) {
+        Optional<UserRelationship> counterUserRelationship =
+            userDao.getUserRelationshipByIds(userRelationship.getUser2Id(), userRelationship.getUser1Id());
+        if (counterUserRelationship.isPresent() &&
+            (counterUserRelationship.get().getStatus() == RelationshipStatus.LIKED ||
+                counterUserRelationship.get().getStatus() == RelationshipStatus.MATCHED)) {
+            return counterUserRelationship;
+        } else {
+            return Optional.empty();
+        }
     }
 }

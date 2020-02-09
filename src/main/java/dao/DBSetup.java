@@ -27,7 +27,7 @@ public class DBSetup {
             ));
         userRelationships(Arrays.asList(
             "(1, 2, 'LIKED', " + Instant.now().toEpochMilli() + ")",
-            "(2, 1, 'LIKED', " + Instant.now().toEpochMilli() + ")"
+            "(1, 3, 'LIKED', " + Instant.now().toEpochMilli() + ")"
         ));
     }
 

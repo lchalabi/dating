@@ -2,15 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19712f82-8fcf-4920-9cd5-00390139ac47" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/UserRelationshipRowMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/RelationshipResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/dao/DBSetup.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/dao/DBSetup.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/dao/UserDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/dao/UserDao.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/dao/UserDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/dao/UserDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/model/RelationshipStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/model/RelationshipStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/model/RestResponse$RestResponseBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/model/RestResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/model/ValidationRule.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/model/ValidationRule.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/service/UserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/service/ValidationService$TransactionType.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/service/ValidationService$TransactionType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/service/ValidationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/service/ValidationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/DBSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/DBSetup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/UserDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/UserDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/RelationshipStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/RelationshipStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/RestResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/UserResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/ValidationRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/ValidationRule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/ValidationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ValidationService.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,16 +82,6 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="postgres@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="postgres: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="user_relationships: table" type="69fad909:PgImplModel$LocalTable" />
       </path>
     </expand>
     <select />
@@ -225,11 +229,6 @@
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
               <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@8080e342" type="7427dc5b:ServiceModel$ServiceGroupNode" />
               <item name="com.intellij.execution.services.ServiceModel$ServiceNode@24573f34" type="9fbbdea:ServiceModel$ServiceNode" />
-            </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@8080e342" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@470ae086" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
           </expand>
           <select />

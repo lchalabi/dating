@@ -3,7 +3,9 @@ package dao;
 import model.RelationshipStatus;
 import model.User;
 import model.UserRelationship;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -11,8 +13,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static model.RelationshipStatus.BLOCKED;
@@ -104,18 +110,41 @@ public class UserDaoImpl implements UserDao {
             .addValue("updatedAt", Instant.now().toEpochMilli());
 
         template.update(sql, param, holder);
-
     }
 
     @Override
-    public List<User> getBlockedUsers(int userId) {
+    public Optional<UserRelationship> getUserRelationshipByIds(int user1Id, int user2Id) {
+        String sql = "select * from user_relationships where user1_id = :user1Id and user2_id = :user2Id";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+            .addValue("user1Id", user1Id)
+            .addValue("user2Id", user2Id);
+
+        try {
+            return Optional.ofNullable(template.queryForObject(sql, param, new UserRelationshipRowMapper()));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<User> getRelationshipsByStatus(int userId, RelationshipStatus status) {
         return template.query("select * from users where id in (select user2_id from user_relationships where " +
-            "user1_id=" + userId + " and status = '" + BLOCKED.name() + "')", new UserRowMapper());
+            "user1_id=" + userId + " and status = '" + status.name() + "')", new UserRowMapper());
     }
 
     @Override
     public List<User> getUsersWhoLiked(int userId) {
         return template.query("select * from users where id in (select user1_id from user_relationships where " +
             "user2_id=" + userId + " and status = '" + LIKED.name() + "')", new UserRowMapper());
+    }
+
+    @Override
+    public void deleteRelationship(UserRelationship userRelationship) {
+        final String sql = "delete from user_relationships where user1_Id=:user1Id and user2_Id=:user2Id";
+        Map<String,Object> map= new HashMap<>();
+        map.put("user1Id", userRelationship.getUser1Id());
+        map.put("user2Id", userRelationship.getUser2Id());
+        template.execute(sql, map, (PreparedStatementCallback<Object>) PreparedStatement::executeUpdate);
     }
 }

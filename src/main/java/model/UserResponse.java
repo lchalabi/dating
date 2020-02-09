@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class RestResponse {
+public class UserResponse {
     private List<User> users;
     private List<ValidationFailure> failures;
 }

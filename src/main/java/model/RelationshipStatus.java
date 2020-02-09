@@ -1,5 +1,5 @@
 package model;
 
 public enum RelationshipStatus {
-    LIKED, BLOCKED
+    LIKED, BLOCKED, MATCHED, DISLIKED
 }

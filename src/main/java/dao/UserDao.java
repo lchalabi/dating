@@ -1,5 +1,6 @@
 package dao;
 
+import model.RelationshipResponse;
 import model.RelationshipStatus;
 import model.User;
 import model.UserRelationship;
@@ -12,10 +13,12 @@ public interface UserDao {
     List<User> getAll();
     Optional<User> createUser(User newUser);
     void updateUser(User updateUser);
-    List<User> getBlockedUsers(int userId);
+    List<User> getRelationshipsByStatus(int userId, RelationshipStatus status);
     List<User> getUsersWhoLiked(int userId);
     Optional<User> getByEmail(String email);
     void upsertRelationship(UserRelationship userRelationship);
+    Optional<UserRelationship> getUserRelationshipByIds(int user1Id, int user2Id);
+    void deleteRelationship(UserRelationship userRelationship);
     Optional<User> getById(int id);
 
 }

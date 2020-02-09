@@ -1,6 +1,7 @@
 package service;
 
 import dao.UserDao;
+import model.RelationshipStatus;
 import model.User;
 import model.UserRelationship;
 import model.ValidationRule;
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static model.ValidationRule.CANNOT_INTERACT_WITH_BLOCKED_USER;
 import static model.ValidationRule.EMAIL_ALREADY_EXISTS;
 import static model.ValidationRule.EMAIL_MUST_BE_SPECIFIED;
 import static model.ValidationRule.ID_MUST_BE_NULL;
@@ -25,7 +27,7 @@ public class ValidationService {
     private final UserDao userDao;
 
     public enum TransactionType {
-        CREATE, UPDATE, DELETE;
+        CREATE, UPDATE
     }
 
     @Autowired
@@ -44,7 +46,7 @@ public class ValidationService {
 
     public List<ValidationFailure> validateUserRelationship(UserRelationship userRelationship) {
         List<ValidationFailure> validationFailures = new ArrayList<>();
-        if (userRelationship.getStatus() == null) {
+        if (userRelationship.getStatus() == null || userRelationship.getStatus() == RelationshipStatus.MATCHED) {
             validationFailures.add(ValidationFailure.builder()
                 .errorMessage(STATUS_MUST_BE_SPECIFIED.getDesc())
                 .build());
@@ -56,6 +58,14 @@ public class ValidationService {
         }
         validateUserExists(userRelationship.getUser1Id(), validationFailures);
         validateUserExists(userRelationship.getUser2Id(), validationFailures);
+
+        if (validationFailures.isEmpty()) {
+            if (isBlocked(userRelationship)) {
+                validationFailures.add(ValidationFailure.builder()
+                    .errorMessage(CANNOT_INTERACT_WITH_BLOCKED_USER.getDesc())
+                    .build());
+            }
+        }
         return validationFailures;
     }
 
@@ -83,6 +93,13 @@ public class ValidationService {
         validateEmail(user, validationFailures);
         validateName(user, validationFailures);
         return validationFailures;
+    }
+
+    private boolean isBlocked(UserRelationship userRelationship) {
+        Optional<UserRelationship> counterUserRelationship =
+            userDao.getUserRelationshipByIds(userRelationship.getUser2Id(), userRelationship.getUser1Id());
+        return counterUserRelationship.filter(relationship -> relationship.getStatus() == RelationshipStatus.BLOCKED)
+            .isPresent();
     }
 
     private void validateUserExists(int id, List<ValidationFailure> validationFailures) {
