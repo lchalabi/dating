@@ -3,7 +3,6 @@ package dao;
 import model.RelationshipStatus;
 import model.User;
 import model.UserRelationship;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -14,14 +13,12 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static model.RelationshipStatus.BLOCKED;
 import static model.RelationshipStatus.LIKED;
 
 @Repository
@@ -36,6 +33,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAll() {
         return template.query("select * from users", new UserRowMapper());
+    }
+
+    @Override
+    public List<User> getViewableUsers(int userId) {
+        return template.query("select * from users where id != " + userId + " and id not in (select user2_id from " +
+            "user_relationships where user1_id = " + userId + ") and id not in (select user1_id from " +
+            "user_relationships where user2_id = " + userId + " and status = 'BLOCKED')", new UserRowMapper());
     }
 
     @Override
@@ -68,14 +72,16 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> createUser(User newUser) {
-        final String sql = "insert into users (first_name, last_name , email) values" +
-            "(:firstName, :lastName, :email)";
+        final String sql = "insert into users (first_name, last_name , email, ice_cream_preference) values" +
+            "(:firstName, :lastName, :email, :iceCreamPreference)";
         KeyHolder holder = new GeneratedKeyHolder();
 
         SqlParameterSource param = new MapSqlParameterSource()
             .addValue("firstName", newUser.getFirstName())
             .addValue("lastName", newUser.getLastName())
-            .addValue("email", newUser.getEmail());
+            .addValue("email", newUser.getEmail())
+            .addValue("iceCreamPreference", (newUser.getIceCreamPreference() == null) ? null :
+                newUser.getIceCreamPreference().name());
 
         template.update(sql, param, holder);
 
@@ -85,13 +91,15 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void updateUser(User updateUser) {
         final String sql = "update users set first_name=:firstName, last_name=:lastName, " +
-            "email=:email where id=:userId";
+            "email=:email, ice_cream_preference=:iceCreamPreference where id=:userId";
         KeyHolder holder = new GeneratedKeyHolder();
         SqlParameterSource param = new MapSqlParameterSource()
             .addValue("userId", updateUser.getId())
             .addValue("firstName", updateUser.getFirstName())
             .addValue("lastName", updateUser.getLastName())
-            .addValue("email", updateUser.getEmail());
+            .addValue("email", updateUser.getEmail())
+            .addValue("iceCreamPreference",
+                (updateUser.getIceCreamPreference() == null) ? null : updateUser.getIceCreamPreference().name());
         template.update(sql,param, holder);
     }
 

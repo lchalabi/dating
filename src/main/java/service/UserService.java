@@ -12,8 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import service.ValidationService.TransactionType;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -59,6 +62,21 @@ public class UserService {
         } else {
             return userDao.getUsersWhoLiked(userId);
         }
+    }
+
+    public List<User> getRecommendedProfiles(int userId) {
+        List<User> users = userDao.getViewableUsers(userId);
+        final Optional<User> user = userDao.getById(userId);
+        if (user.isPresent()) {
+            final Set<Integer> likedBy =
+                userDao.getUsersWhoLiked(user.get().getId()).stream().map(User::getId).collect(Collectors.toSet());
+            Comparator<User> comparator = Comparator.<User, Integer>comparing(user2 -> user2.likedBy(likedBy))
+                .thenComparing(user2 -> user2.getSimilarity(user.get()));
+
+            comparator.thenComparing(user1 -> user1.likedBy(likedBy));
+            users.sort(comparator);
+        }
+        return users;
     }
 
     public RelationshipResponse upsertRelationship(UserRelationship userRelationship) {

@@ -1,6 +1,5 @@
 package dao;
 
-import model.RelationshipResponse;
 import model.RelationshipStatus;
 import model.User;
 import model.UserRelationship;
@@ -11,6 +10,7 @@ import java.util.Optional;
 public interface UserDao {
 
     List<User> getAll();
+    List<User> getViewableUsers(int userId);
     Optional<User> createUser(User newUser);
     void updateUser(User updateUser);
     List<User> getRelationshipsByStatus(int userId, RelationshipStatus status);

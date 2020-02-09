@@ -2,29 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19712f82-8fcf-4920-9cd5-00390139ac47" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/UserRelationshipRowMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/RelationshipResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/IceCreamPreference.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/controller/UserController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/dao/DBSetup.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/dao/DBSetup.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/dao/UserDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/dao/UserDao.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/dao/UserDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/dao/UserDaoImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/model/RelationshipStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/model/RelationshipStatus.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/model/RestResponse$RestResponseBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/model/RestResponse.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/model/ValidationRule.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/model/ValidationRule.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/dao/UserRowMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/dao/UserRowMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/model/GenderType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/model/User$UserBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/model/User$UserBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/model/User.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/service/UserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/service/ValidationService$TransactionType.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/service/ValidationService$TransactionType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/service/ValidationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/service/ValidationService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/DBSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/DBSetup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/UserDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/UserDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/RelationshipStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/RelationshipStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/RestResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/UserResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/ValidationRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/ValidationRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/UserRowMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/GenderType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/ValidationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ValidationService.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -149,8 +145,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -230,6 +226,16 @@
               <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@8080e342" type="7427dc5b:ServiceModel$ServiceGroupNode" />
               <item name="com.intellij.execution.services.ServiceModel$ServiceNode@24573f34" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@8080e342" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@507ff647" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@8080e342" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@55b63efb" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
           </expand>
           <select />
         </treeState>
@@ -263,5 +269,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/service/UserService.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

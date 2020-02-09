@@ -32,8 +32,8 @@ public class DBSetup {
     }
 
     private void users(List<String> values) {
-        template.execute("CREATE TABLE IF NOT EXISTS users (id serial PRIMARY KEY, first_name text, last_name text, " +
-            "email text UNIQUE)");
+        template.execute("CREATE TABLE IF NOT EXISTS users (id serial PRIMARY KEY, first_name text not null, " +
+            "last_name text not null, email text UNIQUE not null, ice_cream_preference text)");
 
         values.forEach(valueSet -> {
             template.execute("INSERT INTO users (first_name, last_name, email) values " +

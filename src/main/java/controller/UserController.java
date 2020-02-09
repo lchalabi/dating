@@ -35,19 +35,10 @@ public class UserController {
         return ResponseEntity.of(Optional.ofNullable(users));
     }
 
-    @PostMapping(value = "/edit")
-    public ResponseEntity<UserResponse> updateUser(@RequestBody User updateUser) {
-        return ResponseEntity.of(Optional.ofNullable(userService.updateUser(updateUser)));
-    }
-
-    @PostMapping(value = "/create")
-    public ResponseEntity<UserResponse> createUser(@RequestBody User newUser) {
-        return ResponseEntity.of(Optional.ofNullable(userService.createUser(newUser)));
-    }
-
-    @PostMapping(value = "/relationships/upsert")
-    public ResponseEntity<RelationshipResponse> upsertRelationship(@RequestBody UserRelationship userRelationship) {
-        return ResponseEntity.of(Optional.ofNullable(userService.upsertRelationship(userRelationship)));
+    @GetMapping(value = "/recommendations/{userId}")
+    public ResponseEntity<List<User>> getRecommendations(@PathVariable int userId) {
+        List<User> users = userService.getRecommendedProfiles(userId);
+        return ResponseEntity.of(Optional.ofNullable(users));
     }
 
     @GetMapping(value = "/likes/{userId}")
@@ -66,5 +57,20 @@ public class UserController {
     public ResponseEntity<List<User>> getMatches(@PathVariable int userId) {
         List<User> users = userService.getRelationshipsByStatus(userId, RelationshipStatus.MATCHED);
         return ResponseEntity.of(Optional.ofNullable(users));
+    }
+
+    @PostMapping(value = "/edit")
+    public ResponseEntity<UserResponse> updateUser(@RequestBody User updateUser) {
+        return ResponseEntity.of(Optional.ofNullable(userService.updateUser(updateUser)));
+    }
+
+    @PostMapping(value = "/create")
+    public ResponseEntity<UserResponse> createUser(@RequestBody User newUser) {
+        return ResponseEntity.of(Optional.ofNullable(userService.createUser(newUser)));
+    }
+
+    @PostMapping(value = "/relationships/upsert")
+    public ResponseEntity<RelationshipResponse> upsertRelationship(@RequestBody UserRelationship userRelationship) {
+        return ResponseEntity.of(Optional.ofNullable(userService.upsertRelationship(userRelationship)));
     }
 }
