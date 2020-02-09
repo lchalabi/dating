@@ -2,17 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19712f82-8fcf-4920-9cd5-00390139ac47" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/service/DatingServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/service/ValidationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/service/ValidationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/service/ValidationService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/DatingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/DatingDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/DatingDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/DatingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/ValidationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ValidationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/service.DatingServiceTest.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/service.DatingServiceTest.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/service.ValidationTest.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/service.ValidationTest.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/tests/test/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/packages/service.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/tests/test/packages/service.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test-results/test/TEST-service.DatingServiceTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-service.DatingServiceTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test-results/test/TEST-service.ValidationTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-service.ValidationTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test-results/test/binary/output.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/test-results/test/binary/output.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test-results/test/binary/output.bin.idx" beforeDir="false" afterPath="$PROJECT_DIR$/build/test-results/test/binary/output.bin.idx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/DatingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/DatingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/DBSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/DBSetup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/DatingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/DatingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -326,7 +330,7 @@
       <option name="presentableId" value="Default" />
       <updated>1581116926514</updated>
       <workItem from="1581116927819" duration="13590000" />
-      <workItem from="1581280497708" duration="4030000" />
+      <workItem from="1581280497708" duration="5997000" />
     </task>
     <servers />
   </component>
@@ -358,11 +362,6 @@
           <url>file://$PROJECT_DIR$/src/test/java/service/ValidationTest.java</url>
           <line>76</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/service/DatingServiceTest.java</url>
-          <line>120</line>
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

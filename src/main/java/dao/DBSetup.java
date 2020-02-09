@@ -9,6 +9,9 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Sets up the database and adds a few test users and relationships.
+ */
 @Repository
 public class DBSetup {
 
