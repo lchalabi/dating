@@ -1,8 +1,10 @@
 package service;
 
 import dao.UserDao;
+import model.RelationshipStatus;
 import model.User;
-import model.UserResponse;
+import model.RestResponse;
+import model.UserRelationship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,27 +29,37 @@ public class UserService {
         return userDao.getAll();
     }
 
-    public UserResponse updateUser(User updateUser) {
-        UserResponse userResponse = UserResponse.builder()
-            .failures(validationService.validate(updateUser, TransactionType.UPDATE))
+    public RestResponse updateUser(User updateUser) {
+        RestResponse restResponse = RestResponse.builder()
+            .failures(validationService.validateUser(updateUser, TransactionType.UPDATE))
             .build();
-        if (userResponse.getFailures().isEmpty()) {
+        if (restResponse.getFailures().isEmpty()) {
             userDao.updateUser(updateUser);
         }
-        return userResponse;
+        return restResponse;
     }
 
-    public UserResponse createUser(User newUser) {
-        UserResponse userResponse = UserResponse.builder()
-            .failures(validationService.validate(newUser, TransactionType.CREATE))
+    public RestResponse createUser(User newUser) {
+        RestResponse restResponse = RestResponse.builder()
+            .failures(validationService.validateUser(newUser, TransactionType.CREATE))
             .build();
-        if (userResponse.getFailures().isEmpty()) {
+        if (restResponse.getFailures().isEmpty()) {
             userDao.createUser(newUser);
         }
-        return userResponse;
+        return restResponse;
     }
 
-    public List<User> getLikes(int userId) {
-        return userDao.getLikes(userId);
+    public List<User> getRelationshipsByStatus(int userId, RelationshipStatus status) {
+        return userDao.getRelationships(userId, status);
+    }
+
+    public RestResponse upsertRelationship(UserRelationship userRelationship) {
+        RestResponse restResponse = RestResponse.builder()
+            .failures(validationService.validateUserRelationship(userRelationship))
+            .build();
+        if (restResponse.getFailures().isEmpty()) {
+            userDao.upsertRelationship(userRelationship);
+        }
+        return restResponse;
     }
 }

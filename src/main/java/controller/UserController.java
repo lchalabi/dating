@@ -1,7 +1,9 @@
 package controller;
 
+import model.RelationshipStatus;
 import model.User;
-import model.UserResponse;
+import model.RestResponse;
+import model.UserRelationship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,18 +35,29 @@ public class UserController {
     }
 
     @PostMapping(value = "/edit")
-    public ResponseEntity<UserResponse> updateUser(@RequestBody User updateUser) {
+    public ResponseEntity<RestResponse> updateUser(@RequestBody User updateUser) {
         return ResponseEntity.of(Optional.ofNullable(userService.updateUser(updateUser)));
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<UserResponse> createUser(@RequestBody User newUser) {
+    public ResponseEntity<RestResponse> createUser(@RequestBody User newUser) {
         return ResponseEntity.of(Optional.ofNullable(userService.createUser(newUser)));
+    }
+
+    @PostMapping(value = "/relationships/upsert")
+    public ResponseEntity<RestResponse> upsertRelationship(@RequestBody UserRelationship userRelationship) {
+        return ResponseEntity.of(Optional.ofNullable(userService.upsertRelationship(userRelationship)));
     }
 
     @GetMapping(value = "/likes/{userId}")
     public ResponseEntity<List<User>> getLikes(@PathVariable int userId) {
-        List<User> users = userService.getLikes(userId);
+        List<User> users = userService.getRelationshipsByStatus(userId, RelationshipStatus.LIKED);
+        return ResponseEntity.of(Optional.ofNullable(users));
+    }
+
+    @GetMapping(value = "/blocks/{userId}")
+    public ResponseEntity<List<User>> getBlocks(@PathVariable int userId) {
+        List<User> users = userService.getRelationshipsByStatus(userId, RelationshipStatus.BLOCKED);
         return ResponseEntity.of(Optional.ofNullable(users));
     }
 }

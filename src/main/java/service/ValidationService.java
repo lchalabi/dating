@@ -2,6 +2,7 @@ package service;
 
 import dao.UserDao;
 import model.User;
+import model.UserRelationship;
 import model.ValidationRule;
 import model.ValidationFailure;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import static model.ValidationRule.EMAIL_ALREADY_EXISTS;
 import static model.ValidationRule.EMAIL_MUST_BE_SPECIFIED;
 import static model.ValidationRule.ID_MUST_BE_NULL;
+import static model.ValidationRule.STATUS_MUST_BE_SPECIFIED;
 
 @Component
 public class ValidationService {
@@ -30,13 +32,25 @@ public class ValidationService {
         this.userDao = userDao;
     }
 
-    public List<ValidationFailure> validate(User user, TransactionType transactionType) {
+    public List<ValidationFailure> validateUser(User user, TransactionType transactionType) {
         if (transactionType == TransactionType.CREATE) {
             return validateCreate(user);
         } else if (transactionType == TransactionType.UPDATE) {
             return validateUpdate(user);
         }
         return Collections.emptyList();
+    }
+
+    public List<ValidationFailure> validateUserRelationship(UserRelationship userRelationship) {
+        List<ValidationFailure> validationFailures = new ArrayList<>();
+        if (userRelationship.getStatus() == null) {
+            validationFailures.add(ValidationFailure.builder()
+                .errorMessage(STATUS_MUST_BE_SPECIFIED.getDesc())
+                .build());
+        }
+        validateUserExists(userRelationship.getUser1Id(), validationFailures);
+        validateUserExists(userRelationship.getUser2Id(), validationFailures);
+        return validationFailures;
     }
 
     private List<ValidationFailure> validateCreate(User user) {
@@ -58,16 +72,20 @@ public class ValidationService {
                 .errorMessage(ValidationRule.ID_MUST_NOT_BE_NULL.getDesc())
                 .build());
         } else if (user.getId() != null){
-            Optional<User> userWithId = userDao.getById(user.getId());
-            if (userWithId.isEmpty()) {
-                validationFailures.add(ValidationFailure.builder()
-                    .errorMessage(ValidationRule.ID_MUST_BELONG_TO_A_USER.getDesc())
-                    .build());
-            }
+            validateUserExists(user.getId(), validationFailures);
         }
         validateEmail(user, validationFailures);
         validateName(user, validationFailures);
         return validationFailures;
+    }
+
+    private void validateUserExists(int id, List<ValidationFailure> validationFailures) {
+        Optional<User> userWithId = userDao.getById(id);
+        if (userWithId.isEmpty()) {
+            validationFailures.add(ValidationFailure.builder()
+                .errorMessage(ValidationRule.ID_MUST_BELONG_TO_A_USER.getDesc())
+                .build());
+        }
     }
 
     private void validateEmail(User user, List<ValidationFailure> failures) {
@@ -76,11 +94,13 @@ public class ValidationService {
                 .errorMessage(EMAIL_MUST_BE_SPECIFIED.getDesc())
                 .build());
         } else if (!user.getEmail().isEmpty()) {
-            userDao.getByEmail(user.getEmail()).ifPresent(userWithSameEmail ->
-                failures.add(ValidationFailure.builder()
-                    .errorMessage(EMAIL_ALREADY_EXISTS.getDesc())
-                    .build()
-            ));
+            userDao.getByEmail(user.getEmail()).ifPresent(userWithSameEmail -> {
+                if (!userWithSameEmail.getId().equals(user.getId())) {
+                    failures.add(ValidationFailure.builder()
+                        .errorMessage(EMAIL_ALREADY_EXISTS.getDesc())
+                        .build());
+                }
+            });
         }
     }
 

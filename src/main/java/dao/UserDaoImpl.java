@@ -1,6 +1,8 @@
 package dao;
 
+import model.RelationshipStatus;
 import model.User;
+import model.UserRelationship;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -9,8 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.Option;
-
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,8 +85,26 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> getLikes(int userId) {
+    public void upsertRelationship(UserRelationship userRelationship) {
+        final String sql = "insert into user_relationships (user1_id, user2_id, status, updated_at) " +
+            "values (:user1Id, :user2Id, :status, :updatedAt) on conflict (user1_id, user2_id) " +
+            "DO UPDATE SET status = excluded.status, updated_at = excluded.updated_at";
+
+        KeyHolder holder = new GeneratedKeyHolder();
+
+        SqlParameterSource param = new MapSqlParameterSource()
+            .addValue("user1Id", userRelationship.getUser1Id())
+            .addValue("user2Id", userRelationship.getUser2Id())
+            .addValue("status", userRelationship.getStatus().name())
+            .addValue("updatedAt", Instant.now().toEpochMilli());
+
+        template.update(sql, param, holder);
+
+    }
+
+    @Override
+    public List<User> getRelationships(int userId, RelationshipStatus status) {
         return template.query("select * from users where id in (select user2_id from user_relationships where " +
-            "user1_id=" + userId + ")", new UserRowMapper());
+            "user1_id=" + userId + " and status = '" + status.name() + "')", new UserRowMapper());
     }
 }
