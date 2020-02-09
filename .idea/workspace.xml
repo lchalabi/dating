@@ -2,18 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19712f82-8fcf-4920-9cd5-00390139ac47" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/UserRelationship.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/controller/HelloWorldController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/HelloWorldController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/UserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/UserDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/RestResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/ValidationRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/ValidationRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/ValidationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ValidationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
