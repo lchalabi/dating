@@ -1,11 +1,11 @@
 package service;
 
-import dao.UserDao;
+import dao.DatingDao;
 import model.RelationshipStatus;
 import model.User;
 import model.UserRelationship;
-import model.ValidationRule;
 import model.ValidationFailure;
+import model.ValidationRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,18 +24,18 @@ import static model.ValidationRule.USER_CANNOT_HAVE_A_RELATIONSHIP_WITH_SELF;
 @Component
 public class ValidationService {
 
-    private final UserDao userDao;
+    private final DatingDao datingDao;
 
     public enum TransactionType {
         CREATE, UPDATE
     }
 
     @Autowired
-    public ValidationService(UserDao userDao) {
-        this.userDao = userDao;
+    public ValidationService(DatingDao datingDao) {
+        this.datingDao = datingDao;
     }
 
-    public List<ValidationFailure> validateUser(User user, TransactionType transactionType) {
+    List<ValidationFailure> validateUser(User user, TransactionType transactionType) {
         if (transactionType == TransactionType.CREATE) {
             return validateCreate(user);
         } else if (transactionType == TransactionType.UPDATE) {
@@ -44,7 +44,7 @@ public class ValidationService {
         return Collections.emptyList();
     }
 
-    public List<ValidationFailure> validateUserRelationship(UserRelationship userRelationship) {
+    List<ValidationFailure> validateUserRelationship(UserRelationship userRelationship) {
         List<ValidationFailure> validationFailures = new ArrayList<>();
         if (userRelationship.getStatus() == null || userRelationship.getStatus() == RelationshipStatus.MATCHED) {
             validationFailures.add(ValidationFailure.builder()
@@ -69,7 +69,7 @@ public class ValidationService {
         return validationFailures;
     }
 
-    public List<ValidationFailure> validateUserExists(int userId) {
+    List<ValidationFailure> validateUserExists(int userId) {
         List<ValidationFailure> validationFailures = new ArrayList<>();
         validateUserExists(userId, validationFailures);
         return validationFailures;
@@ -103,13 +103,13 @@ public class ValidationService {
 
     private boolean isBlocked(UserRelationship userRelationship) {
         Optional<UserRelationship> counterUserRelationship =
-            userDao.getUserRelationshipByIds(userRelationship.getUser2Id(), userRelationship.getUser1Id());
+            datingDao.getUserRelationshipByIds(userRelationship.getUser2Id(), userRelationship.getUser1Id());
         return counterUserRelationship.filter(relationship -> relationship.getStatus() == RelationshipStatus.BLOCKED)
             .isPresent();
     }
 
     private void validateUserExists(int id, List<ValidationFailure> validationFailures) {
-        Optional<User> userWithId = userDao.getById(id);
+        Optional<User> userWithId = datingDao.getById(id);
         if (userWithId.isEmpty()) {
             validationFailures.add(ValidationFailure.builder()
                 .errorMessage(ValidationRule.ID_MUST_BELONG_TO_A_USER.getDesc())
@@ -123,7 +123,7 @@ public class ValidationService {
                 .errorMessage(EMAIL_MUST_BE_SPECIFIED.getDesc())
                 .build());
         } else if (!user.getEmail().isEmpty()) {
-            userDao.getByEmail(user.getEmail()).ifPresent(userWithSameEmail -> {
+            datingDao.getByEmail(user.getEmail()).ifPresent(userWithSameEmail -> {
                 if (!userWithSameEmail.getId().equals(user.getId())) {
                     failures.add(ValidationFailure.builder()
                         .errorMessage(EMAIL_ALREADY_EXISTS.getDesc())
