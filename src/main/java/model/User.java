@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import java.util.Set;
 
@@ -17,6 +18,7 @@ public class User {
     private String email;
     private IceCreamPreference iceCreamPreference;
     @JsonIgnore
+    @Nullable
     private int similarity;
 
     public int getSimilarity(User otherUser) {
