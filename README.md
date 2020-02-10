@@ -90,6 +90,15 @@ Runs both containers in unison (dating, and postgres).  If you see an error abou
 ```docker-compose down```
 Stops both containers, bringing down the application. 
 
+# Connect to Local Postgres DB
+
+URL = jdbc:postgresql://postgres:5432/postgres
+HOST = localhost
+PORT = 5432
+USER = postgres
+PASSWORD = admin
+
+
 
 
 
