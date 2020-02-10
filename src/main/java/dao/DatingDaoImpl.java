@@ -39,7 +39,8 @@ public class DatingDaoImpl implements DatingDao {
     public List<User> getViewableUsers(int userId) {
         return template.query("select * from users where id != " + userId + " and id not in (select user2_id from " +
             "user_relationships where user1_id = " + userId + ") and id not in (select user1_id from " +
-            "user_relationships where user2_id = " + userId + " and status = 'BLOCKED')", new UserRowMapper());
+            "user_relationships where user2_id = " + userId + " and status = 'BLOCKED' or status = 'DISLIKED')",
+            new UserRowMapper());
     }
 
     @Override
