@@ -91,7 +91,7 @@ Stops and removes the postgres container.  When we run the application, we’ll 
 Builds the docker container containing the backend for the dating application. The jar file is included in the git repo so you don’t need to worry about it building it.  
 
 ```docker-compose up```
-Runs both containers in unison (dating, and postgres).  If you see an error about postgres already existing you may need to prune it from your system.  ```docker system prune```
+Runs both containers in unison (dating, and postgres). At this point, the application is ready for testing! In the case you see an error about postgres already existing you may need to prune it from your system.  ```docker system prune```
 
 ```docker-compose down```
 Stops both containers, bringing down the application. 
