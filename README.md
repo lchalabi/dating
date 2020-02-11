@@ -2,10 +2,12 @@
 ## Summary
 This project is a small API backend written in Java, intended to represent a simplified version of the Hinge backend.  The design is a simple controller, service, and repository structure where the repository connects to a Postgres DB.  Both the backend and the database run in docker containers.  The application consists of 8 REST endpoints to allow a user to interact with other users on the platform.  Basic functionality includes creating a user, allowing a user to view other users that liked them, and allowing a user to edit their profile. Further functionality allows a user to receive recommendations on who to like, view their matches (users that reciprocally liked the current user), block other users, unblock other users, and dislike other users.  
 
+The database is preloaded with some user and user relationship data that can be inspected by connecting to the datastore (details at the end of readme). 
+
 ## Endpoints detailed 
 ### Get all users
 **GET http://localhost:8080/dating/all**
-Returns all users on the system (mostly implemented for testing purposes).  User's are stored in the database table called "users". 
+Returns all users on the system (mostly implemented for testing purposes).  Users are stored in the database table called "users". 
 
 ### Create user
 **POST http://localhost:8080/dating/create**
@@ -15,13 +17,13 @@ Creates the user and returns either the user if created or a list of validation 
 
 ### Edit user
 **POST http://localhost:8080/dating/edit**
-Updates a user's profile.  Returns nothing if successful or a list of validation failures if not.  Integer id must be specified for an update and email address can be changed but must be unique.  First and last names can be changed but cannot be null.  If an ice cream preference is specified it must be one of the following options: AMPLE_HILLS or VAN_LEEUWEN 
+Updates a user's profile.  Returns a trivial response object if successful or a list of validation failures if not.  Integer id of the updated user must be specified. Email address can be changed but must be unique.  First and last names can be changed but cannot be null.  If an ice cream preference is specified it must be one of the following options: AMPLE_HILLS or VAN_LEEUWEN 
 
 **JSON** for request body: ```{"id": {int}, "firstName": {string}, "lastName": {string}, "email": {string}, "iceCreamPreference": {string}}```
 
 ### Upsert user relationship
 **POST http://localhost:8080/dating/relationships/upsert**
-Changes one user's relationship with another.  Possible status updates include LIKED, DISLIKED, and BLOCKED.  Any state transitions between these three are possible.  However, if a user has been blocked by another user they will not be able to change their relationship with that user.  The perspective of a state change is from user1Id. 
+Changes one user's relationship with another.  Possible status updates include LIKED, DISLIKED, and BLOCKED.  Any state transitions between these three are possible.  However, if a user has been blocked by another user they will not be able to change their relationship with that user.  The perspective of a state change is from the user with id ```user1Id```.  User relationships are stored in the database table called user_relationships.
 
 **JSON** for request body: ```{"user1Id": {int}, "user2Id": {int}, "status": {string}}```
 
@@ -35,7 +37,7 @@ MATCHED: Not supported.  MATCHED status can only be set by the system.  However,
 
 ### Get recommendations
 **GET http://localhost:8080/dating/recommendations/{userId}**
-Returns users that the system recommends to user with integer id {userId}.  The list is filtered to exclude users that have matched with or have been liked by the current user, as well as users that have blocked the current user, or that the user has blocked or disliked.  The list is then ordered by users that have liked the current user and then by users that the same ice cream preference as the current user.  Ex: a user that has liked the current user and has the same ice cream preference as the current user will come before a user that simply liked the current user in the list. 
+Returns users that the system recommends to user with integer id {userId}.  The list is filtered to exclude users that have matched with or have been liked by the current user, as well as users that have blocked or disliked the current user, or that the user has blocked or disliked.  The list is then ordered by users that have liked the current user and then by users that have the same ice cream preference as the current user.  Ex: a user that has liked the current user and has the same ice cream preference as the current user will come before a user that simply liked the current user in the list. 
 
 ### Get likes
 **GET http://localhost:8080/dating/likes/{userId}**
@@ -57,6 +59,9 @@ Returns users that the user with integer id {userId} has matched with.
 Contains all the code, dockerfiles, and jar needed to build and run the application
 
 ### Install docker and create the database
+
+Install docker by following instructions at https://docs.docker.com/install/
+
 Then run the following 
 
  ```docker create -v /var/lib/postgresql/data --name PostgresData alpine``` 
@@ -92,9 +97,13 @@ Stops both containers, bringing down the application.
 # Connect to Local Postgres DB
 
 URL = jdbc:postgresql://postgres:5432/postgres
+
 HOST = localhost
+
 PORT = 5432
+
 USER = postgres
+
 PASSWORD = admin
 
 
