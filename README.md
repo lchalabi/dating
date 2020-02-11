@@ -49,7 +49,7 @@ Returns users that the user with integer id {userId} has matched with.
 
 ### Get blocks
 **GET http://localhost:8080/dating/blocks/{userId}**
-Returns users that the user with integer id {userId} has matched with. 
+Returns users that the user with integer id {userId} has blocked. 
 
 # How to run locally 
 
