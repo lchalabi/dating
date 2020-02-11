@@ -1,4 +1,4 @@
-# Simple Backend for Dating Platform
+# Dating
 ## Summary
 This project is a small API backend written in Java, intended to represent a simplified version of the Hinge backend.  The design is a simple controller, service, and repository structure where the repository connects to a Postgres DB.  Both the backend and the database run in docker containers.  The application consists of 8 REST endpoints to allow a user to interact with other users on the platform.  Basic functionality includes creating a user, allowing a user to view other users that liked them, and allowing a user to edit their profile. Further functionality allows a user to receive recommendations on who to like, view their matches (users that reciprocally liked the current user), block other users, unblock other users, and dislike other users.  
 
