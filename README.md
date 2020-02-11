@@ -27,13 +27,13 @@ Changes one user's relationship with another.  Possible status updates include L
 
 **JSON** for request body: ```{"user1Id": {int}, "user2Id": {int}, "status": {string}}```
 
-LIKED: If user1 likes user2 then user1 will show up in user2's likes.  However, if user2 had already liked user1, then both users will show up in each others matches and not in their likes.  LIKED also has the ability to unblock user2 if previously blocked. 
+```LIKED```: If user1 likes user2 then user1 will show up in user2's likes.  However, if user2 had already liked user1, then both users will show up in each others matches and not in their likes.  LIKED also has the ability to unblock user2 if previously blocked. 
 
-BLOCKED: If user1 blocks user2, user2 will not show up in user1's likes, recommendations, or matches.  User2 will not be able to see user1 in their recommendations until user1 unblocks them. 
+```BLOCKED```: If user1 blocks user2, user2 will not show up in user1's likes, recommendations, or matches.  User2 will not be able to see user1 in their recommendations until user1 unblocks them. 
 
-DISLIKED: If user1 dislikes user2, user2 will not show up in user1's recommendations.   User2 will still appear in user1's likes, allowing user1 a chance to change their mind. 
+```DISLIKED```: If user1 dislikes user2, user2 will not show up in user1's recommendations.   User2 will still appear in user1's likes, allowing user1 a chance to change their mind. 
 
-MATCHED: Not supported.  MATCHED status can only be set by the system.  However, if user1 has ended up in MATCHED status with user2, user1 does have the ability to BLOCK or DISLIKE that user.  Liking a match has no effect.  
+```MATCHED```: Not supported.  MATCHED status can only be set by the system.  However, if user1 has ended up in MATCHED status with user2, user1 does have the ability to block or dislike that user.  Liking a match has no effect.  
 
 ### Get recommendations
 **GET http://localhost:8080/dating/recommendations/{userId}**
@@ -60,33 +60,35 @@ Contains all the code, dockerfiles, and jar needed to build and run the applicat
 
 ### Install docker and create the database
 
+Run all the following commands. 
+
 Install docker by following instructions at https://docs.docker.com/install/
 
 Then run the following 
 
  ```docker create -v /var/lib/postgresql/data --name PostgresData alpine``` 
  
-To create the docker volume to store data
+Creates the docker volume to store data
 
 ```docker run -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=admin -d --volumes-from PostgresData postgres```
 
-To create the postgres database
+Creates the postgres database
 
 ```docker ps -a```
 
-To list docker containers running.  You should see one named postgres. 
+Lists the docker containers you have.  You should see one named postgres. 
 
 ```docker stop postgres```
 
 ```docker rm postgres```
 
-To stop and remove the postgres container.  When we run the application, we’ll start it up again. If you run ```docker ps -a``` again you’ll see the container is no longer listed. 
+Stops and removes the postgres container.  When we run the application, we’ll start it up again. If you run ```docker ps -a``` again you’ll see the container is no longer listed. 
 
 ### Build and run the backend application
 
 ```docker build ./ -t dating```
 
-To build the docker container containing the backend for the dating application. The jar file is included in the git repo so you don’t need to worry about it building it.  
+Builds the docker container containing the backend for the dating application. The jar file is included in the git repo so you don’t need to worry about it building it.  
 
 ```docker-compose up```
 Runs both containers in unison (dating, and postgres).  If you see an error about postgres already existing you may need to prune it from your system.  ```docker system prune```
