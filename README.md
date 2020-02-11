@@ -21,7 +21,7 @@ Updates a user's profile.  Returns nothing if successful or a list of validation
 
 ### Upsert user relationship
 **POST http://localhost:8080/dating/relationships/upsert**
-Changes one user's relationship with another.  Possibly changes include LIKED, DISLIKED, and BLOCKED.  
+Changes one user's relationship with another.  Possible status updates include LIKED, DISLIKED, and BLOCKED.  Any state transitions between these three are possible.  However, if a user has been blocked by another user they will not be able to change their relationship with that user.  The perspective of a state change is from user1Id. 
 
 **JSON** for request body: ```{"user1Id": {int}, "user2Id": {int}, "status": {string}}```
 
@@ -31,13 +31,12 @@ BLOCKED: If user1 blocks user2, user2 will not show up in user1's likes, recomme
 
 DISLIKED: If user1 dislikes user2, user2 will not show up in user1's recommendations.   User2 will still appear in user1's likes, allowing user1 a chance to change their mind. 
 
-MATCHED: Not supported.  MATCHED status can only be set by the system. 
+MATCHED: Not supported.  MATCHED status can only be set by the system.  However, if user1 has ended up in MATCHED status with user2, user1 does have the ability to BLOCK or DISLIKE that user.  Liking a match has no effect.  
 
 ### Get recommendations
 **GET http://localhost:8080/dating/recommendations/{userId}**
 Returns users that the system recommends to user with integer id {userId}.  The list is filtered to exclude users that have matched with or have been liked by the current user, as well as users that have blocked the current user, or that the user has blocked or disliked.  The list is then ordered by users that have liked the current user and then by users that the same ice cream preference as the current user.  Ex: a user that has liked the current user and has the same ice cream preference as the current user will come before a user that simply liked the current user in the list. 
 
-# BUG
 ### Get likes
 **GET http://localhost:8080/dating/likes/{userId}**
 Returns users that have liked the user with integer id {userId}.  Does not return any users that the current user has blocked.
