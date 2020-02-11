@@ -98,7 +98,7 @@ Stops both containers, bringing down the application.
 
 # Connect to Local Postgres DB
 
-URL = jdbc:postgresql://postgres:5432/postgres
+URL = jdbc:postgresql://localhost:5432/postgres
 
 HOST = localhost
 
